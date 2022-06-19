@@ -30,6 +30,22 @@ describe("Inbox", () => {
     // function actually exists
     assert.ok(inbox.options.address)
   })
+
+  it("has a default message", async () => {
+    // need to call a method on our Inbox contract
+    // two methods tied to our contract - message and setMessage
+    const message = await inbox.methods.message().call()
+    assert.equal(message, "Hi there!")
+  })
+
+  it("can change the message", async () => {
+    // receive a transaction hash back from the function
+    // modifying the blockchain so need to assign who pays
+    // not assigned to a variable
+    await inbox.methods.setMessage("bye").send({ from: accounts[0] })
+    const message = await inbox.methods.message().call()
+    assert.equal(message, "bye")
+  })
 })
 
 // class Car {
